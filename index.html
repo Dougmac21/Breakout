@@ -37,6 +37,23 @@
         let leftKeyPressed = false;
         let rightKeyPressed = false;
 
+        // (Prep bricks)
+        let brickRows = 3;
+        let brickColumns = 5;
+        let brickWidth = 75;
+        let brickHeight = 20;
+        let brickPadding = 10;
+        let BrickOffsetTop = 30;
+        let brickOffsetLeft = 30;
+
+        let bricks = [];
+        for(let column=0; column < brickColumns; column++){
+            bricks[column] = [];
+            for (let row=0; row < brickRows; row++){
+                bricks[column][row] = { xAxisPosition: 0, yAxisPosition: 0};
+            }
+        };
+
 
 
         //  (Set for input from controls)
@@ -81,7 +98,20 @@
             ctx.closePath();
         };
 
-
+        // (Draw bricks)
+        function createBricks(){
+            for(let column=0; column < brickColumns; column++){
+                for(let rows=0; rows < brickRows; rows++){
+                    bricks[column][row].x = 0;
+                    bricks[column][row].y = 0;
+                    ctx.beginPath();
+                    ctx.rect(0, 0, brickWidth, brickHeight);
+                    ctx.fillStyle = "#0095DD";
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+        };
 
         // (Ball to change colour)
         function randomColourGenerator(){
