@@ -17,22 +17,40 @@
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
 
-        let xAxis = canvas.width/2;
-        let yAxis = canvas.height-30;
+        let xAxisPosition = canvas.width/2;
+        let yAxisPosition = canvas.height-30;
 
-        const xAxisChange = 2;
-        const yAxisChange = -2;
-        
-        function draw() {
+        let xAxisPositionChange = 1;
+        let yAxisPositionChange = 1;
+
+        const ballRadius = 10;
+
+     
+        function drawBall() {
             ctx.beginPath();
-            ctx.arc(xAxis, yAxis, 10, 0, Math.PI*2);
+            ctx.arc(xAxisPosition, yAxisPosition, ballRadius, 0, Math.PI*2);
             ctx.fillStyle = "#0095DD";
             ctx.fill();
             ctx.closePath();
-            xAxis += xAxisChange;
-            yAxis += yAxisChange;
+        };
+
+
+        function draw(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            xAxisPosition += xAxisPositionChange;
+            yAxisPosition += yAxisPositionChange;
+            
+            if (xAxisPosition + xAxisPositionChange > canvas.width || xAxisPosition + xAxisPositionChange < 0){
+            xAxisPositionChange = -xAxisPositionChange;
         }
-        setInterval(draw, 10);
+
+            if (yAxisPosition + yAxisPositionChange > canvas.height || yAxisPosition + yAxisPositionChange < 0){
+            yAxisPositionChange = -yAxisPositionChange;
+        }
+        };
+
+        setInterval(draw, 15);
 
 
 
