@@ -6,7 +6,7 @@
     <title>Dougs Amazing Arcade</title>
     <style>
         * { padding: 0; margin: 0 }
-        canvas { background: \eee; display: block; margin: 0 auto; }
+        canvas { background: #eee; display: block; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -21,21 +21,47 @@
         // Prep paddle
         const paddleHeight = 10;
         const paddleWidth = 75;
-        const paddlePosition = (canvas.width - paddleWidth) / 2;
+        let paddlePosition = (canvas.width - paddleWidth) / 2;
 
         // Prep ball
-        let xAxisPosition = canvas.width/2;
-        let yAxisPosition = canvas.height-30;
         const ballRadius = 10;
         let ballColour = "#0095DD"
+        let xAxisPosition = canvas.width/2;
+        let yAxisPosition = canvas.height-30;
 
         // Prep ball motion
-        let xAxisPositionChange = 1;
-        let yAxisPositionChange = 1;
+        let xAxisPositionChange = 2;
+        let yAxisPositionChange = 2;
 
         // Prep control system
         let leftKeyPressed = false;
         let rightKeyPressed = false;
+
+
+
+        //  Set for input from controls
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+        function keyDownHandler(e){
+            if (event.key == "Right" || event.key == "ArrowRight"){
+                rightKeyPressed = true;
+            }
+            else if (event.key == "Left" || event.key == "ArrowLeft"){
+                leftKeyPressed = true;
+            }
+        };
+
+        function keyUpHandler(event){
+            if (event.key == "Right" || event.key == "ArrowRight"){
+                rightKeyPressed = false;
+            }
+            else if (event.key == "Left" || event.key == "ArrowLeft"){
+                leftKeyPressed = false;
+            }
+        };
+
+
 
         // Draw paddle
         function createPaddle(){
@@ -46,8 +72,6 @@
             ctx.closePath();
         };
      
-
-
         // Draw ball
         function createBall() {
             ctx.beginPath();
@@ -72,6 +96,7 @@
         function changeBallColour(){
             ballColour = randomColourGenerator();
         };
+
 
 
         // Render game
@@ -103,7 +128,7 @@
                 }
             }
 
-            if (leftKeyPressed){
+            else if (leftKeyPressed){
                 paddlePosition -= 7;
                 if (paddlePosition < 0){
                     paddlePosition = 0;
@@ -116,38 +141,6 @@
 
         // Define internal of ball motion frames
         setInterval(renderGame, 15);
-
-
-
-        //  Set for input from controls
-        document.addEventListener("keydown", keyDownHandler, false);
-        document.addEventListener("keyup", keyUpHandler, false);
-
-        function keyDownHandler(event){
-            if
-            (event.key == "Right" || event.key == "ArrowRight"){
-                rightKeyPressed = true;
-            }
-            else if
-            (event.key == "Left" || event.key == "ArrowLeft"){
-                leftKeyPressed = true;
-            }
-        };
-
-        function keyUpHandler(event){
-            if
-            (event.key == "Right" || event.key == "ArrowRight"){
-                rightKeyPressed = false;
-            }
-            else if
-            (event.key == "Left" || event.key == "ArrowLeft"){
-                leftKeyPressed = false;
-            }
-        };
-
-
-
-
 
 
 
