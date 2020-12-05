@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    
+    <!-- Create game area -->
     <canvas id="myCanvas" width="480" height="320"></canvas>
 
     <script>
@@ -21,7 +21,7 @@
         // Prep paddle
         const paddleHeight = 10;
         const paddleWidth = 75;
-        const paddleStartingPoint = (canvas.width - paddleWidth) / 2;
+        const paddlePosition = (canvas.width - paddleWidth) / 2;
 
         // Prep ball
         let xAxisPosition = canvas.width/2;
@@ -40,12 +40,14 @@
         // Draw paddle
         function createPaddle(){
             ctx.beginPath();
-            ctx.rect(paddleStartingPoint, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+            ctx.rect(paddlePosition, canvas.height - paddleHeight, paddleWidth, paddleHeight);
             ctx.fillStyle = "#0095DD";
             ctx.fill();
             ctx.closePath();
         };
      
+
+
         // Draw ball
         function createBall() {
             ctx.beginPath();
@@ -54,6 +56,8 @@
             ctx.fill();
             ctx.closePath();
         };
+
+
 
         // Allow ball to change colour.
         function randomColourGenerator(){
@@ -70,10 +74,14 @@
         };
 
 
-        // Render moving ball on canvas
-        function drawBallMotion(){
+        // Render game
+        function renderGame(){
+            // create game elements
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             createBall();
+            createPaddle();
+
+            // parameters for ball movement
             xAxisPosition += xAxisPositionChange;
             yAxisPosition += yAxisPositionChange;
             
@@ -87,10 +95,58 @@
             changeBallColour();
             }
 
+            // parameters for paddle movement
+            if (rightKeyPressed){
+                paddlePosition += 7;
+                if (paddlePosition + paddleWidth > canvas.width){
+                    paddlePosition = canvas.width - paddleWidth;
+                }
+            }
+
+            if (leftKeyPressed){
+                paddlePosition -= 7;
+                if (paddlePosition < 0){
+                    paddlePosition = 0;
+                }
+            }
+
         };
 
+
+
         // Define internal of ball motion frames
-        setInterval(drawBallMotion, 15);
+        setInterval(renderGame, 15);
+
+
+
+        //  Set for input from controls
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+        function keyDownHandler(event){
+            if
+            (event.key == "Right" || event.key == "ArrowRight"){
+                rightKeyPressed = true;
+            }
+            else if
+            (event.key == "Left" || event.key == "ArrowLeft"){
+                leftKeyPressed = true;
+            }
+        };
+
+        function keyUpHandler(event){
+            if
+            (event.key == "Right" || event.key == "ArrowRight"){
+                rightKeyPressed = false;
+            }
+            else if
+            (event.key == "Left" || event.key == "ArrowLeft"){
+                leftKeyPressed = false;
+            }
+        };
+
+
+
 
 
 
