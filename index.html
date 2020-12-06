@@ -170,6 +170,11 @@
             ctx.fillText("Lives: " + lives, canvas.width-65, 20);
         }
 
+        // (Change ball angle of motion on contact with paddle)
+        function alterBallAngle(){
+            xAxisPositionChange = xAxisPositionChange * (1.02 + (1.3 * Math.floor(Math.random())));
+            yAxisPositionChange = yAxisPositionChange * (1.01 + (1.1 * Math.floor(Math.random())));
+        }
 
         // (Ball-Brick Collision Detection)
         function ballBrickCollisionDetection(){
@@ -181,8 +186,8 @@
                         && yAxisPosition > brickObject.yAxisPosition && yAxisPosition < brickObject.yAxisPosition+brickHeight){
                         yAxisPositionChange = -yAxisPositionChange;
                         brickObject.drawStatus = 0;
-                        xAxisPositionChange *=1.1;
-                        yAxisPositionChange *=1.1;
+                        xAxisPositionChange *=1.12;
+                        yAxisPositionChange *=1.12;
                         ballColourController();
                         brickColourController();
                         bounceSound();
@@ -271,6 +276,7 @@
                     ballColourController();
                     brickColourController();
                     bounceSound();
+                    alterBallAngle();
                 }
                 else {
                     lives--;
