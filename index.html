@@ -222,14 +222,12 @@
             xAxisPositionChange = -xAxisPositionChange;
             ballColourController();
             brickColourController();
-
             }
 
             if (yAxisPosition + yAxisPositionChange < ballRadius){
             yAxisPositionChange = -yAxisPositionChange;
             ballColourController();
             brickColourController();
-
 
             } else if (yAxisPosition + yAxisPositionChange > canvas.height - ballRadius){
                 if (xAxisPosition > paddlePosition && xAxisPosition < paddlePosition + paddleWidth){
