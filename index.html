@@ -20,19 +20,19 @@
 
         // (Prep paddle)
         const paddleHeight = 12;
-        let paddleWidth = 65;
-        let paddleColour = "0095DD";
+        let paddleWidth = 70;
+        let paddleColour = "black";
         let paddlePosition = (canvas.width - paddleWidth) / 2;
 
         // (Prep ball)
-        const ballRadius = 10;
-        let ballColour = "#0095DD";
+        const ballRadius = 7;
+        let ballColour = "black";
         let xAxisPosition = canvas.width/2;
         let yAxisPosition = canvas.height-30;
 
         // (Prep ball motion)
-        let xAxisPositionChange = 2.84;
-        let yAxisPositionChange = 1.98;
+        let xAxisPositionChange = 2.77;
+        let yAxisPositionChange = 1.66;
 
         // (Prep control system)
         let leftKeyPressed = false;
@@ -46,7 +46,7 @@
         let brickPadding = 10;
         let BrickOffsetTop = 30;
         let brickOffsetLeft = 30;
-        let brickColour = "#0095DD"
+        let brickColour = "black"
 
         let bricks = [];
         for(let column=0; column<brickColumnsCount; column++){
@@ -134,14 +134,14 @@
         // (Draw score)
         function drawscore(){
             ctx.font = "16px Ariel";
-            ctx.fillStyle = "#0095DD";
+            ctx.fillStyle = "black";
             ctx.fillText("Score: " + score, 8, 20);
         }
 
         // (Draw lives)
         function drawLives(){
             ctx.font = "16px Ariel";
-            ctx.fillStyle = "#0095DD";
+            ctx.fillStyle = "black";
             ctx.fillText("Lives: " + lives, canvas.width-65, 20);
         }
 
