@@ -10,6 +10,9 @@
     </style>
 </head>
 <body>
+    <!-- Create sound effect element -->
+    <audio id="ballContactSound" src="/media/ballBounce.wav" autoplay="false"></audio>
+
     <!-- Create game area -->
     <canvas id="myCanvas" width="480" height="320"></canvas>
 
@@ -59,6 +62,10 @@
         // (Prep score)
         let score = 0;
         let lives = 3;
+
+        // (Prep sound)
+        let theGameMusic;
+        let theGameSound;
 
 
 
@@ -200,6 +207,12 @@
             }
         }
 
+        // (Play sound effect on ball contact)
+        function bounceSound(){
+            let ballContactSound = document.getElementById("ballContactSound");
+            sound.play();
+        }
+
 
 
         // (Render game)
@@ -222,12 +235,14 @@
             xAxisPositionChange = -xAxisPositionChange;
             ballColourController();
             brickColourController();
+            bounceSound();
             }
 
             if (yAxisPosition + yAxisPositionChange < ballRadius){
             yAxisPositionChange = -yAxisPositionChange;
             ballColourController();
             brickColourController();
+            bounceSound();
 
             } else if (yAxisPosition + yAxisPositionChange > canvas.height - ballRadius){
                 if (xAxisPosition > paddlePosition && xAxisPosition < paddlePosition + paddleWidth){
@@ -242,7 +257,7 @@
                     else{
                         xAxisPosition = canvas.width/2;
                         yAxisPosition = canvas.height-30;
-                        xAxisPositionChange = 2.84;
+                        xAxisPositionChange = 3.44;
                         yAxisPositionChange = 1.98;
                         paddlePosition = (canvas.width-paddleWidth)/2;
                     }
