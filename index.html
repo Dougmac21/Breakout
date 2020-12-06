@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dougs Amazing Arcade</title>
+    <title>Dougs Arcade: Breakout</title>
     <style>
         * { padding: 0; margin: 0 }
         canvas { background: #eee; display: block; margin: 0 auto; }
-        p { text-align: center; margin: 0 auto; }
+        #play-button { text-align: center; margin: 0 auto; }
+        #game-name { text-align: center; margin: 0 auto; }
     </style>
 </head>
 <body>
-
+    <br>
+    <h1 id="game-name"> Breakout </h1>
+    <br>
     <!-- Create game area -->
     <canvas id="myCanvas" width=480 height=320></canvas>
 
     <!-- Create sound effect element -->
     <audio id="ballContactSound" src="ballBounce.mp3"></audio>
 
-    <p id="playButton">
+    <p id="play-button">
     <br>
     <br>
     <button onclick="playGame()">Play!</button>
@@ -38,7 +41,7 @@
 
         // (Prep paddle)
         const paddleHeight = 12;
-        let paddleWidth = 70;
+        let paddleWidth = 85;
         let paddleColour = "black";
         let paddlePosition = (canvas.width - paddleWidth) / 2;
 
@@ -49,8 +52,8 @@
         let yAxisPosition = canvas.height-30;
 
         // (Prep ball motion)
-        let xAxisPositionChange = 1.33;
-        let yAxisPositionChange = 2.88;
+        let xAxisPositionChange = 1.25;
+        let yAxisPositionChange = -2.75;
 
         // (Prep control system)
         let leftKeyPressed = false;
@@ -178,6 +181,8 @@
                         && yAxisPosition > brickObject.yAxisPosition && yAxisPosition < brickObject.yAxisPosition+brickHeight){
                         yAxisPositionChange = -yAxisPositionChange;
                         brickObject.drawStatus = 0;
+                        xAxisPositionChange *=1.1;
+                        yAxisPositionChange *=1.1;
                         ballColourController();
                         brickColourController();
                         bounceSound();
@@ -278,8 +283,8 @@
                     else{
                         xAxisPosition = canvas.width/2;
                         yAxisPosition = canvas.height-30;
-                        xAxisPositionChange = 1.33;
-                        yAxisPositionChange = 2.88;
+                        xAxisPositionChange = 1.25;
+                        yAxisPositionChange = -2.75;
                         paddlePosition = (canvas.width-paddleWidth)/2;
                     }
                 }
