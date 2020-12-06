@@ -33,6 +33,7 @@
         // (Prep game canvas)
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
+        let gameIsRunning = 0;
 
 
         // (Prep paddle)
@@ -183,6 +184,7 @@
                         score++;
                         if (score == brickRowsCount * brickColumnsCount){
                             alert("                  YOU WIN! \nYOU SMASHED ALL " + (brickRowsCount*brickColumnsCount) + " BRICKS!");
+                            gameIsRunning = 0;
                             document.location.reload();
                         }
                         }
@@ -270,6 +272,7 @@
                     if(lives == 0){
                         document.getElementById("alert");
                         alert("  GAME OVER \nYOU SCORED " + score);
+                        gameIsRunning = 0;
                         document.location.reload();
                     }
                     else{
@@ -304,7 +307,10 @@
 
         // (Run game)
         function playGame(){
-        renderGame();
+            if (gameIsRunning == 0){
+                gameIsRunning = 1;
+                renderGame();
+            }
         };
 
 
