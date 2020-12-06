@@ -1,2 +1,2 @@
 <?php include_once("index.html"); ?>
-<?php include_once("/media/ballBounce.mp3"); ?>
+<?php include_once("media/ballBounce.mp3"); ?>
