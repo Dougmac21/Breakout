@@ -30,8 +30,8 @@
         let yAxisPosition = canvas.height-30;
 
         // (Prep ball motion)
-        let xAxisPositionChange = 3;
-        let yAxisPositionChange = 3;
+        let xAxisPositionChange = 2.84;
+        let yAxisPositionChange = 1.98;
 
         // (Prep control system)
         let leftKeyPressed = false;
@@ -50,15 +50,20 @@
         for(let column=0; column<brickColumnsCount; column++){
             bricks[column] = [];
             for (let row=0; row<brickRowsCount; row++){
-                bricks[column][row] = { xAxisPosition: 0, yAxisPosition: 0};
+                bricks[column][row] = { xAxisPosition: 0, yAxisPosition: 0, drawStatus: 1 };
             }
         };
+
+        // (Prep score)
+        let score = 0;
+        let lives = 3;
 
 
 
         //  (Set for input from controls)
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
+        document.addEventListener("mousemove", mouseMovementHandler, false);
 
         function keyDownHandler(e){
             if (event.key == "Right" || event.key == "ArrowRight"){
@@ -77,6 +82,13 @@
                 leftKeyPressed = false;
             }
         };
+
+        function mouseMovementHandler(event){
+            let paddleXAxis = event.clientX - canvas.offsetLeft;
+            if(paddleXAxis > 0 && paddleXAxis < canvas.width){
+                paddlePosition = paddleXAxis - paddleWidth/2;
+            }
+        }
 
 
 
@@ -102,18 +114,56 @@
         function createBricks(){
             for(let column=0; column < brickColumnsCount; column++){
                 for(let row=0; row < brickRowsCount; row++){
-                    let brickXAxisPlacement = (column * (brickWidth+brickPadding)) + brickOffsetLeft;
-                    let brickYAxisPlacement = (row * (brickHeight+brickPadding)) + BrickOffsetTop;
-                    bricks[column][row].xAxisPosition = brickXAxisPlacement;
-                    bricks[column][row].yAxisPosition = brickYAxisPlacement;
-                    ctx.beginPath();
-                    ctx.rect(brickXAxisPlacement, brickYAxisPlacement, brickWidth, brickHeight);
-                    ctx.fillStyle = "#0095DD";
-                    ctx.fill();
-                    ctx.closePath();
+                    if(bricks[column][row].drawStatus == 1){
+                        let brickXAxisPlacement = (column * (brickWidth+brickPadding)) + brickOffsetLeft;
+                        let brickYAxisPlacement = (row * (brickHeight+brickPadding)) + BrickOffsetTop;
+                        bricks[column][row].xAxisPosition = brickXAxisPlacement;
+                        bricks[column][row].yAxisPosition = brickYAxisPlacement;
+                        ctx.beginPath();
+                        ctx.rect(brickXAxisPlacement, brickYAxisPlacement, brickWidth, brickHeight);
+                        ctx.fillStyle = "#0095DD";
+                        ctx.fill();
+                        ctx.closePath();
+                    }
                 }
             }
         };
+
+        // (Draw score)
+        function drawscore(){
+            ctx.font = "16px Ariel";
+            ctx.fillStyle = "#0095DD";
+            ctx.fillText("Score: " + score, 8, 20);
+        }
+
+        // (Draw lives)
+        function drawLives(){
+            ctx.font = "16px Ariel";
+            ctx.fillStyle = "#0095DD";
+            ctx.fillText("Lives: " + lives, canvas.width-65, 20);
+        }
+
+
+        // (Ball-Brick Collision Detection)
+        function ballBrickCollisionDetection(){
+            for(let column=0; column<brickColumnsCount; column++){
+                for(let row=0; row<brickRowsCount; row++){
+                    let brickObject = bricks[column][row];
+                    if(brickObject.drawStatus == 1){
+                        if(xAxisPosition > brickObject.xAxisPosition && xAxisPosition < brickObject.xAxisPosition+brickWidth
+                        && yAxisPosition > brickObject.yAxisPosition && yAxisPosition < brickObject.yAxisPosition+brickHeight){
+                        yAxisPositionChange = -yAxisPositionChange;
+                        brickObject.drawStatus = 0;
+                        score++;
+                        if (score == brickRowsCount * brickColumnsCount){
+                            alert("                  YOU WIN! \nYOU SMASHED ALL " + (brickRowsCount*brickColumnsCount) + " BRICKS!");
+                            document.location.reload();
+                        }
+                        }
+                    }
+                }
+            }
+        }
 
         // (Ball to change colour)
         function randomColourGenerator(){
@@ -138,6 +188,9 @@
             createBricks();
             createBall();
             createPaddle();
+            ballBrickCollisionDetection();
+            drawscore();
+            drawLives();
 
             // (Configuration of ball movement)
             xAxisPosition += xAxisPositionChange;
@@ -155,13 +208,22 @@
                     yAxisPositionChange = -yAxisPositionChange;
                 }
                 else {
-                    alert("GAME OVER!");
-                    document.location.reload();
-                    clearInterval(interval); // (Needed for Chrome to end the game)
+                    lives--;
+                    if(!lives){
+                        alert("  GAME OVER \nYOU SCORED " + score);
+                        document.location.reload();
                     }
+                    else{
+                        xAxisPosition = canvas.width/2;
+                        yAxisPosition = canvas.height-30;
+                        xAxisPositionChange = 2.84;
+                        yAxisPositionChange = 1.98;
+                        paddlePosition = (canvas.width-paddleWidth)/2;
+                    }
+                }
             }
 
-            // (Parameters for paddle movement)
+            // (Parameters for paddle movement by keypress)
             if (rightKeyPressed){
                 paddlePosition += 8;
                 if (paddlePosition + paddleWidth > canvas.width){
@@ -176,12 +238,13 @@
                 }
             }
 
+            requestAnimationFrame(renderGame);
         };
 
 
 
-        // (Set "game speed")
-        var interval = setInterval(renderGame, 10);
+        // (Run game)
+        renderGame();
 
 
 
