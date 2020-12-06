@@ -7,21 +7,33 @@
     <style>
         * { padding: 0; margin: 0 }
         canvas { background: #eee; display: block; margin: 0 auto; }
+        p { text-align: center; margin: 0 auto; }
     </style>
 </head>
 <body>
+
     <!-- Create game area -->
-    <canvas id="myCanvas" width="480" height="320">
-        <!-- Create sound effect element -->
-        <audio id="ballContactSound" src="ballBounce.mp3"></audio>
-    </canvas>
+    <canvas id="myCanvas" width=480 height=320></canvas>
+
+    <!-- Create sound effect element -->
+    <audio id="ballContactSound" src="ballBounce.mp3"></audio>
+
+    <p id="playButton">
+    <br>
+    <br>
+    <button onclick="playGame()">Play!</button>
+    </p>
 
 
 
     <script>
+
+
+
         // (Prep game canvas)
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
+
 
         // (Prep paddle)
         const paddleHeight = 12;
@@ -36,8 +48,8 @@
         let yAxisPosition = canvas.height-30;
 
         // (Prep ball motion)
-        let xAxisPositionChange = 1.3;
-        let yAxisPositionChange = 2.8;
+        let xAxisPositionChange = 1.33;
+        let yAxisPositionChange = 2.88;
 
         // (Prep control system)
         let leftKeyPressed = false;
@@ -249,18 +261,22 @@
             } else if (yAxisPosition + yAxisPositionChange > canvas.height - ballRadius){
                 if (xAxisPosition > paddlePosition && xAxisPosition < paddlePosition + paddleWidth){
                     yAxisPositionChange = -yAxisPositionChange;
+                    ballColourController();
+                    brickColourController();
+                    bounceSound();
                 }
                 else {
                     lives--;
                     if(lives == 0){
+                        document.getElementById("alert");
                         alert("  GAME OVER \nYOU SCORED " + score);
                         document.location.reload();
                     }
                     else{
                         xAxisPosition = canvas.width/2;
                         yAxisPosition = canvas.height-30;
-                        xAxisPositionChange = 3.44;
-                        yAxisPositionChange = 1.98;
+                        xAxisPositionChange = 1.33;
+                        yAxisPositionChange = 2.88;
                         paddlePosition = (canvas.width-paddleWidth)/2;
                     }
                 }
@@ -287,8 +303,9 @@
 
 
         // (Run game)
+        function playGame(){
         renderGame();
-
+        }
 
 
 
