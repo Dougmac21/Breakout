@@ -92,6 +92,20 @@
         document.addEventListener("keyup", keyUpHandler, false);
         document.addEventListener("mousemove", mouseMovementHandler, false);
 
+        function startupTouch(){
+        document.addEventListener("touchstart", handleStart, false);
+        document.addEventListener("touchend", handleEnd, false);
+        document.addEventListener("touchcancel", handleCancel, false);
+        document.addEventListener("touchmove", handleMove, false);
+        }
+
+        document.addEventListener("DOMContentLoaded", startupTouch);
+
+        let ongoingTouchInputs = [];
+
+        // touch control function here
+
+
         function keyDownHandler(e){
             if (event.key == "Right" || event.key == "ArrowRight"){
                 rightKeyPressed = true;
