@@ -13,7 +13,7 @@
 </head>
 <body>
     <br>
-    <h1 id="game-name"> Breakout </h1>
+    <h1 id="game-name">  </h1>
     <br>
     <!-- Create game area -->
     <canvas id="myCanvas" width=480 height=320></canvas>
@@ -170,11 +170,11 @@
             }
         };
 
-        // (Draw score)
+        // (Draw game name & score)
         function drawscore(){
             ctx.font = "16px Ariel";
             ctx.fillStyle = "black";
-            ctx.fillText("Score: " + score, 8, 20);
+            ctx.fillText("Dougs Arcade: Breakout                                         Score: " + score, 8, 20);
         }
 
         // (Draw lives)
