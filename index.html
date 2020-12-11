@@ -76,7 +76,9 @@
 
         // (Prep score)
         let score = 0;
+        let highScore = 0;
         let lives = 3;
+        let timer = 0;
 
         // (Prep sound)
         let theGameMusic;
@@ -181,6 +183,15 @@
             ctx.fillText("Lives: " + lives, canvas.width-65, 20);
         }
 
+        // (Draw timer)
+        function drawTimer(){
+            ctx.font = "16px Ariel";
+            ctx.fillstyle = "black";
+            ctx.filltext("Gametime: " + timer, 40, 20);
+        }
+
+
+
         // (Change ball angle of motion and accellerate on contact with paddle)
         // (Change in motion biases towards greater horizontal motion to stop game becoming too hard)
         function alterBallAngle(){
@@ -205,7 +216,7 @@
                         bounceSound();
                         score++;
                         if (score === 15){
-                            saveScore(score);
+                            setHighScore(score);
                             alert("                  YOU WIN! \nYOU SMASHED ALL " + (brickRowsCount*brickColumnsCount) + " BRICKS!");
                             gameIsRunning = 0;
                             document.location.reload();
@@ -280,7 +291,7 @@
             drawscore();
             drawLives();
             paddleColourController();
-
+            
             // (Configuration of ball movement)
             xAxisPosition += xAxisPositionChange;
             yAxisPosition += yAxisPositionChange;
@@ -309,7 +320,8 @@
                 else {
                     lives--;
                     if(lives == 0){
-                        saveScore(score);
+                        setHighScore(score);
+                        setTimer();
                         document.getElementById("alert");
                         alert("  GAME OVER \nYOU SCORED " + score);
                         gameIsRunning = 0;
@@ -343,8 +355,16 @@
             requestAnimationFrame(renderGame);
         };
 
-        saveScore(scoreToSave){
-            // react function link to database in here
+        function runTimer(){
+            timer = 1;
+        }
+
+        function setTimer(){
+            timer = 2;
+        }
+
+        function setHighScore(scoreToSet){
+            highScore = scoreToSet
         }
 
 
@@ -352,6 +372,7 @@
         function playGame(){
             if (gameIsRunning == 0){
                 gameIsRunning = 1;
+                runTimer();
                 renderGame();
             }
         };
