@@ -18,9 +18,6 @@
     <!-- Create game area -->
     <canvas id="myCanvas" width=480 height=320></canvas>
 
-    <!-- Create sound effect element -->
-    <audio id="ballContactSound" src="ballBounce.mp3"></audio>
-
     <p id="play-button">
     <br>
     <br>
@@ -170,11 +167,11 @@
             }
         };
 
-        // (Draw game name & score)
+        // (Draw score)
         function drawscore(){
             ctx.font = "16px Ariel";
             ctx.fillStyle = "black";
-            ctx.fillText("Breakout!                                               Score: " + score, 8, 20);
+            ctx.fillText("Score: " + score, 8, 20);
         }
 
         // (Draw lives)
@@ -185,10 +182,10 @@
         }
 
         // (Change ball angle of motion and accellerate on contact with paddle)
-        // (Change in motion biases towards faster vertical motion to stop game becoming too hard)
+        // (Change in motion biases towards greater horizontal motion to stop game becoming too hard)
         function alterBallAngle(){
-            xAxisPositionChange = xAxisPositionChange * (1.01 + (1.1 * Math.floor(Math.random())));
-            yAxisPositionChange = yAxisPositionChange * (1.02 + (1.3 * Math.floor(Math.random())));
+            xAxisPositionChange = xAxisPositionChange * (1.04 + (1.27 * Math.floor(Math.random())));
+            yAxisPositionChange = yAxisPositionChange * (1.01 + (1.09 * Math.floor(Math.random())));
         }
 
         // (Ball-Brick Collision Detection)
@@ -207,7 +204,8 @@
                         brickColourController();
                         bounceSound();
                         score++;
-                        if (score == brickRowsCount * brickColumnsCount){
+                        if (score === 15){
+                            saveScore(score);
                             alert("                  YOU WIN! \nYOU SMASHED ALL " + (brickRowsCount*brickColumnsCount) + " BRICKS!");
                             gameIsRunning = 0;
                             document.location.reload();
@@ -217,6 +215,7 @@
                 }
             }
         }
+
 
         // (Random colour selector)
         function randomColourGenerator(){
@@ -247,13 +246,27 @@
             if (score >= 14){
                 paddleColour = randomColourGenerator();
             }
-        }
+        };
 
         // (Play sound effects)
 
-        function bounceSound(){
-            document.getElementById('ballContactSound').play();
+        let audioContext = new AudioContext();
+
+        function generateSound(amplitude, frequency, duration) {          //amplitude from 0 to 100, frequency in Hz, duration in milliseconds
+            if (!audioContext) return;
+            let oscillator = audioContext.createOscillator();
+            let gain = audioContext.createGain();
+            oscillator.connect(gain);
+            oscillator.value = frequency;
+            gain.connect(audioContext.destination);
+            gain.gain.value = amplitude/100;
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime+duration/1000);
         }
+
+        function bounceSound(){
+            generateSound(80, 120, 90);
+        };
 
 
         // (Render game)
@@ -296,6 +309,7 @@
                 else {
                     lives--;
                     if(lives == 0){
+                        saveScore(score);
                         document.getElementById("alert");
                         alert("  GAME OVER \nYOU SCORED " + score);
                         gameIsRunning = 0;
@@ -329,6 +343,9 @@
             requestAnimationFrame(renderGame);
         };
 
+        saveScore(scoreToSave){
+            // react function link to database in here
+        }
 
 
         // (Run game)
