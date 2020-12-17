@@ -9,6 +9,7 @@
         canvas { background: #eee; display: block; margin: 0 auto; }
         #play-button { text-align: center; margin: 0 auto; }
         #game-name { text-align: center; margin: 0 auto; }
+        #current-score-p { text-align: center; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -17,12 +18,13 @@
     <br>
     <!-- Create game area -->
     <canvas id="myCanvas" width=480 height=320></canvas>
+    <p id="current-score-p">0</p>
 
     <p id="play-button">
     <br>
-    <br>
     <button onclick="playGame()">Start</button>
     </p>
+
 
 
 
@@ -79,6 +81,9 @@
         let highScore = 0;
         let lives = 3;
         let timer = 0;
+
+        
+        
 
         // (Prep sound)
         let theGameMusic;
@@ -291,6 +296,9 @@
             drawscore();
             drawLives();
             paddleColourController();
+
+            document.getElementById("current-score-p").innerHTML = score;         //Sends JS variable to inside element
+
             
             // (Configuration of ball movement)
             xAxisPosition += xAxisPositionChange;
