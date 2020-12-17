@@ -7,7 +7,33 @@
     <style>
         * { padding: 0; margin: 0 }
         canvas { background: #eee; display: block; margin: 0 auto; }
-        #play-button { text-align: center; margin: 0 auto; }
+        #play-button { text-align: center; margin: 0 auto; padding:0; }
+
+        @font-face {
+            font-family: PressStart2P;
+            src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap')
+        }
+
+
+        .play-button {
+
+            color: white;
+            width: 100px;
+            height: 60px;
+            font-family: 'PressStart2P';
+            background-color: #38125cd5;
+            box-shadow: #8a43cccc;    
+            padding: 15px;
+            margin: 20px;
+            font-size: 20px;
+            text-shadow: 
+            0 0 12px rgba(202,228,225,0.92),
+            0 0 60px rgba(98, 3, 117, 0.34),
+            0 0 20px rgba(116, 8, 143, 0.52),
+            0 0 40px rgba(207, 30, 242, 0.92),
+            0 0 50px rgba(210, 83, 221, 0.78),
+            0 0 80px rgba(232, 110, 236, 0.92);
+        }
         #game-name { text-align: center; margin: 0 auto; }
         #current-score-p { text-align: center; margin: 0 auto; color:rgb(204, 0, 255);}
     </style>
@@ -22,7 +48,7 @@
 
     <p id="play-button">
     <br>
-    <button onclick="playGame()">Start</button>
+    <button class="play-button" onClick="playGame()">START</button>
     </p>
 
 
